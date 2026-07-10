@@ -1,0 +1,60 @@
+project:
+  name: vestige
+  artifacts_dir: ./artifacts
+
+data:
+  raw_dir: ./data/raw
+  processed_dir: ./data/processed
+  splits_dir: ./data/splits
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+  max_history_len: 20
+
+features:
+  input_size: 16
+  include_time_features: true
+  include_lexeme_features: true
+
+lstm:
+  input_size: 16
+  hidden_size: 64
+  num_layers: 2
+  dropout: 0.3
+  bidirectional: false
+
+training:
+  epochs: 50
+  batch_size: 256
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  patience: 5
+  grad_clip: 1.0
+  device: auto
+  checkpoint_dir: ./artifacts/checkpoints
+
+sm2:
+  initial_interval: 1
+  initial_easiness: 2.5
+  min_easiness: 1.3
+
+hlr:
+  initial_halflife: 1.0
+  learning_rate: 0.001
+  lambda_: 0.1
+
+fsrs:
+  version: 4
+  request_retention: 0.9
+
+evaluation:
+  n_bins: 10
+  metrics:
+    - auc
+    - log_loss
+    - rmse
+    - calibration_error
+
+logging:
+  enabled: true
+  level: INFO
